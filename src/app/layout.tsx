@@ -4,52 +4,32 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: '新应用 | 扣子编程',
-    template: '%s | 扣子编程',
+    default: '宋朝美学 | 华夏文化之巅',
+    template: '%s | 宋朝美学',
   },
   description:
-    '扣子编程是一款一站式云端 Vibe Coding 开发平台。通过对话轻松构建智能体、工作流和网站，实现从创意到上线的无缝衔接。',
+    '深入探索宋朝美学的独特魅力，从哲学根基到艺术表现，从生活美学到现代转译，系统剖析这一"华夏民族之文化造极于赵宋"的历史巅峰。',
   keywords: [
-    '扣子编程',
-    'Coze Code',
-    'Vibe Coding',
-    'AI 编程',
-    '智能体搭建',
-    '工作流搭建',
-    '网站搭建',
-    '网站部署',
-    '全栈开发',
-    'AI 工程师',
+    '宋朝美学',
+    '宋代艺术',
+    '汝窑天青',
+    '宋明理学',
+    '格物致知',
+    '文人画',
+    '点茶',
+    '焚香',
+    '插花',
+    '中国传统文化',
   ],
-  authors: [{ name: 'Coze Code Team', url: 'https://code.coze.cn' }],
+  authors: [{ name: '宋朝美学研究' }],
   generator: 'Coze Code',
-  // icons: {
-  //   icon: '',
-  // },
   openGraph: {
-    title: '扣子编程 | 你的 AI 工程师已就位',
+    title: '宋朝美学 | 华夏文化之巅',
     description:
-      '我正在使用扣子编程 Vibe Coding，让创意瞬间上线。告别拖拽，拥抱心流。',
-    url: 'https://code.coze.cn',
-    siteName: '扣子编程',
+      '从哲学根基到艺术表现，深入探索宋朝美学的独特魅力与历史价值。',
     locale: 'zh_CN',
     type: 'website',
-    // images: [
-    //   {
-    //     url: '',
-    //     width: 1200,
-    //     height: 630,
-    //     alt: '扣子编程 - 你的 AI 工程师',
-    //   },
-    // ],
   },
-  // twitter: {
-  //   card: 'summary_large_image',
-  //   title: 'Coze Code | Your AI Engineer is Here',
-  //   description:
-  //     'Build and deploy full-stack applications through AI conversation. No env setup, just flow.',
-  //   // images: [''],
-  // },
   robots: {
     index: true,
     follow: true,
@@ -64,7 +44,7 @@ export default function RootLayout({
   const isDev = process.env.COZE_PROJECT_ENV === 'DEV';
 
   return (
-    <html lang="en">
+    <html lang="zh-CN">
       <body className={`antialiased`}>
         {isDev && <Inspector />}
         {children}
