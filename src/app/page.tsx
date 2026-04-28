@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Navigation from '@/components/Navigation';
-import HeroSection from '@/components/HeroSection';
-import PhilosophySection from '@/components/PhilosophySection';
-import ArtSection from '@/components/ArtSection';
-import LifeSection from '@/components/LifeSection';
-import ModernSection from '@/components/ModernSection';
-import ConclusionSection from '@/components/ConclusionSection';
-import Footer from '@/components/Footer';
+import { Navigation } from '@/components/Navigation';
+import { HeroSection } from '@/components/HeroSection';
+import { PhilosophySection } from '@/components/PhilosophySection';
+import { ArtSection } from '@/components/ArtSection';
+import { LifeSection } from '@/components/LifeSection';
+import { ModernSection } from '@/components/ModernSection';
+import { ConclusionSection } from '@/components/ConclusionSection';
+import { Footer } from '@/components/Footer';
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);

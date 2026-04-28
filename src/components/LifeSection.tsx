@@ -1,143 +1,69 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
 const lifeArts = [
   {
-    id: 'incense',
-    title: '焚香',
-    subtitle: '隔火熏香的仪式感与哲学内涵',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-      </svg>
-    ),
-    points: [
-      '宋代焚香追求"香清烟少"的意境',
-      '发展出"隔火熏香"的方法，达到"有香无烟"的雅致效果',
-      '文人墨客通过品香、颂香，表达对精神境界的追求',
-      '陆游："棐几砚涵鸲鹆眼，古奁香斮鹧鸪斑"',
+    id: "incense",
+    title: "焚香",
+    subtitle: "隔火熏香的仪式感与哲学内涵",
+    icon: "香",
+    quote: "香清烟少，有香无烟",
+    description:
+      "宋代焚香艺术追求香清烟少的意境，发展出隔火熏香的方法，利用炭火温度使香气缓慢释放，达到雅致效果。",
+    poetry: [
+      "「棐几砚涵鸲鹆眼，古奁香斮鹧鸪斑」",
+      "「梦断午窗花影转，小炉犹有睡时烟」",
     ],
-    quote: '香清烟少，意境悠远',
+    color: "primary",
   },
   {
-    id: 'tea',
-    title: '点茶',
-    subtitle: '建盏与茶沫的辩证美学',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-      </svg>
-    ),
-    points: [
-      '建窑黑釉茶盏以"青黑釉+玉毫纹"为美学标准',
-      '黑釉是"隐"的体现，窑变纹样是"显"的表达',
-      '"茶百戏"通过茶筅击拂形成各种图案',
-      '白色茶沫在黑色背景上形成鲜明对比',
+    id: "tea",
+    title: "点茶",
+    subtitle: "建盏与茶沫的辩证美学",
+    icon: "茶",
+    quote: "青黑釉+玉毫纹，隐与显的哲学表达",
+    description:
+      "建窑黑釉茶盏以隐显辩证的美学思想，与宋代理学格物致知的内省精神高度契合。茶百戏通过茶筅击拂形成各种图案。",
+    poetry: [
+      "盏色贵青黑，玉毫条达者为上",
+      "茶发立耐久，平底必差深而微宽",
     ],
-    quote: '隐显相生，茶韵悠长',
+    color: "vermilion",
   },
   {
-    id: 'flower',
-    title: '插花',
-    subtitle: '季节变化与器物选择的审美哲学',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-      </svg>
-    ),
-    points: [
-      '讲究"以器应时"，秋冬用铜，春夏用磁',
-      '从士大夫阶层逐渐普及到市井百姓',
-      '追求"平淡中含至味"的审美境界',
-      '注重花材的自然状态与季节变化',
+    id: "flowers",
+    title: "插花",
+    subtitle: "季节变化与器物选择的审美哲学",
+    icon: "花",
+    quote: "以器应时，平淡中含至味",
+    description:
+      "宋代插花讲究与季节变化的和谐统一，从士大夫阶层逐渐普及到市井百姓，成为表达情感、寄托精神的重要方式。",
+    poetry: [
+      "秋、冬用铜，春、夏用磁，因乎时也",
+      "折取花枝，侵晨带露，半开香色",
     ],
-    quote: '平淡中含至味，自然之美',
+    color: "gold",
   },
   {
-    id: 'clothing',
-    title: '服饰与装饰',
-    subtitle: '日常生活的美学表达',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-      </svg>
-    ),
-    points: [
-      '服饰色彩进行"减法"，以青白为主色调',
-      '南宋官服简化为三种：紫色、绯色、绿色',
-      '体现"绚烂之极归于平淡"的美学追求',
-      '建筑装饰注重虚实对比，"彻上明造"',
+    id: "clothing",
+    title: "服饰",
+    subtitle: "日常生活的美学表达",
+    icon: "衣",
+    quote: "绚烂之极归于平淡",
+    description:
+      "宋代服饰美学在继承前代基础上进行了色彩的减法，官服色彩简化，民间以青白为主色调，体现素雅之美。",
+    poetry: [
+      "三品以上用紫色，四品、五品用绯色",
+      "六品以下用绿色，民间以青白为主",
     ],
-    quote: '绚烂之极，归于平淡',
+    color: "green",
   },
 ];
 
-function LifeArtCard({ 
-  art, 
-  index, 
-  isVisible 
-}: { 
-  art: typeof lifeArts[0]; 
-  index: number;
-  isVisible: boolean;
-}) {
-  return (
-    <div 
-      className={`
-        relative group transition-all duration-1000
-        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}
-      `}
-      style={{ transitionDelay: `${index * 200}ms` }}
-    >
-      {/* 卡片背景 */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--celadon)]/5 via-transparent to-[var(--vermilion)]/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      
-      {/* 序号装饰 */}
-      <div className="absolute top-4 right-4 font-inscription text-4xl text-[var(--celadon)]/10">
-        {String(index + 1).padStart(2, '0')}
-      </div>
-
-      <div className="relative p-8">
-        {/* 图标 */}
-        <div className="mb-6 text-[var(--celadon)]">
-          {art.icon}
-        </div>
-
-        {/* 标题 */}
-        <h3 className="text-2xl font-semibold text-foreground mb-2">
-          {art.title}
-        </h3>
-        <p className="text-sm text-[var(--celadon)] mb-6">
-          {art.subtitle}
-        </p>
-
-        {/* 要点列表 */}
-        <ul className="space-y-3 mb-6">
-          {art.points.map((point, i) => (
-            <li 
-              key={i}
-              className="flex items-start gap-3 text-sm text-muted-foreground"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--celadon)] mt-2 flex-shrink-0" />
-              {point}
-            </li>
-          ))}
-        </ul>
-
-        {/* 引言 */}
-        <blockquote className="border-l-2 border-[var(--vermilion)]/30 pl-4 italic text-sm text-muted-foreground">
-          {art.quote}
-        </blockquote>
-      </div>
-
-      {/* 底部装饰 */}
-      <div className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-[var(--celadon)]/20 via-[var(--vermilion)]/20 to-transparent" />
-    </div>
-  );
-}
-
-export default function LifeSection() {
+export function LifeSection() {
+  const [activeArt, setActiveArt] = useState("incense");
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -148,7 +74,7 @@ export default function LifeSection() {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
 
     if (sectionRef.current) {
@@ -158,84 +84,191 @@ export default function LifeSection() {
     return () => observer.disconnect();
   }, []);
 
+  const currentLife = lifeArts.find((a) => a.id === activeArt);
+
   return (
-    <section 
-      id="life" 
+    <section
+      id="life"
       ref={sectionRef}
-      className="relative py-32 bg-background"
+      className="relative py-24 md:py-32 overflow-hidden rice-paper-texture"
     >
       {/* 背景装饰 */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/3 left-0 w-full h-96 bg-gradient-to-b from-[var(--celadon)]/5 via-transparent to-transparent" />
-        <div className="absolute bottom-0 right-0 w-1/3 h-96 bg-gradient-to-l from-[var(--vermilion)]/5 to-transparent" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 章节标题 */}
-        <div 
-          className={`
-            text-center mb-20 transition-all duration-1000
-            ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
-          `}
+        <div
+          className={cn(
+            "text-center mb-16 transition-all duration-1000",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          )}
         >
-          <span className="text-sm tracking-widest text-[var(--celadon)] mb-4 block">
-            第三章
+          <span className="font-brush text-3xl text-primary/60 mb-4 block">
+            肆
           </span>
-          <h2 className="text-4xl md:text-5xl font-inscription text-foreground mb-6">
+          <h2 className="font-inscription text-4xl md:text-5xl text-foreground mb-4 tracking-[0.1em]">
             生活美学
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             雅俗交融的日常美学实践
           </p>
-          <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--celadon)] to-transparent mx-auto mt-8" />
+          <div className="chapter-divider mt-8 max-w-xs mx-auto" />
         </div>
 
-        {/* 生活四艺介绍 */}
-        <div 
-          className={`
-            mb-16 p-8 bg-card/50 rounded-xl border border-border/50 text-center
-            transition-all duration-1000 delay-300
-            ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
-          `}
+        {/* 四艺导航 */}
+        <div
+          className={cn(
+            "grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 transition-all duration-1000 delay-200",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          )}
         >
-          <h3 className="text-2xl font-inscription text-foreground mb-4">
-            宋代&quot;生活四艺&quot;
-          </h3>
-          <p className="text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            宋代美学的最大特色之一，是实现了&quot;生活艺术化&quot;与&quot;艺术生活化&quot;的双向融通，
-            <br className="hidden md:block" />
-            形成了独特的&quot;生活四艺&quot;——焚香、点茶、挂画、插花，
-            <br className="hidden md:block" />
-            将艺术精神拓展到日常生活的各个层面。
-          </p>
-        </div>
+          {lifeArts.map((art) => (
+            <button
+              key={art.id}
+              onClick={() => setActiveArt(art.id)}
+              className={cn(
+                "relative p-6 rounded-xl text-center transition-all duration-500 group overflow-hidden",
+                activeArt === art.id
+                  ? "bg-primary text-primary-foreground shadow-lg"
+                  : "bg-background hover:bg-muted/50 border border-border/50"
+              )}
+            >
+              {/* 背景装饰 */}
+              <div
+                className={cn(
+                  "absolute inset-0 opacity-0 transition-opacity duration-500",
+                  activeArt === art.id ? "opacity-100" : "group-hover:opacity-50"
+                )}
+              >
+                <div
+                  className={cn(
+                    "absolute inset-0",
+                    art.color === "primary" && "bg-primary/10",
+                    art.color === "vermilion" && "bg-vermilion/10",
+                    art.color === "gold" && "bg-gold/10",
+                    art.color === "green" && "bg-green-600/10"
+                  )}
+                />
+              </div>
 
-        {/* 四艺卡片 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {lifeArts.map((art, index) => (
-            <LifeArtCard 
-              key={art.id} 
-              art={art} 
-              index={index}
-              isVisible={isVisible}
-            />
+              <div className="relative z-10">
+                <div
+                  className={cn(
+                    "font-brush text-4xl mb-3 transition-colors duration-300",
+                    activeArt === art.id
+                      ? "text-primary-foreground"
+                      : "text-primary/60 group-hover:text-primary"
+                  )}
+                >
+                  {art.icon}
+                </div>
+                <h3
+                  className={cn(
+                    "font-inscription text-lg tracking-wide mb-1 transition-colors duration-300",
+                    activeArt === art.id
+                      ? "text-primary-foreground"
+                      : "text-foreground"
+                  )}
+                >
+                  {art.title}
+                </h3>
+                <p
+                  className={cn(
+                    "text-xs transition-colors duration-300",
+                    activeArt === art.id
+                      ? "text-primary-foreground/80"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {art.subtitle.split("与")[0]}
+                </p>
+              </div>
+
+              {/* 选中指示器 */}
+              {activeArt === art.id && (
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-1 bg-primary-foreground/50 rounded-full" />
+              )}
+            </button>
           ))}
         </div>
 
-        {/* 雅俗交融引言 */}
-        <div 
-          className={`
-            mt-20 text-center transition-all duration-1000 delay-700
-            ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
-          `}
+        {/* 内容展示 */}
+        <div
+          className={cn(
+            "transition-all duration-700",
+            isVisible ? "opacity-100" : "opacity-0"
+          )}
         >
-          <blockquote className="text-lg italic text-muted-foreground max-w-3xl mx-auto">
-            宋代&quot;生活四艺&quot;从文人书斋走向市井茶坊，
-            <br className="hidden md:block" />
-            这种雅俗交融的美学实践，使宋代艺术打破了阶层的界限，
-            <br className="hidden md:block" />
-            成为全民共享的文化资源。
-          </blockquote>
+          {currentLife && (
+            <div className="bg-background rounded-2xl p-8 md:p-12 shadow-sm border border-border/50">
+              <div className="grid md:grid-cols-2 gap-12">
+                {/* 左侧 - 描述 */}
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <span
+                      className={cn(
+                        "font-brush text-5xl",
+                        currentLife.color === "primary" && "text-primary",
+                        currentLife.color === "vermilion" && "text-vermilion",
+                        currentLife.color === "gold" && "text-gold",
+                        currentLife.color === "green" && "text-green-600"
+                      )}
+                    >
+                      {currentLife.icon}
+                    </span>
+                    <div>
+                      <h3 className="font-inscription text-3xl text-foreground tracking-wide">
+                        {currentLife.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {currentLife.subtitle}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="text-muted-foreground leading-relaxed mb-6">
+                    {currentLife.description}
+                  </p>
+
+                  <div className="p-4 rounded-lg bg-muted/50 border-l-2 border-primary/30">
+                    <p className="text-sm text-primary/80 italic">
+                      {currentLife.quote}
+                    </p>
+                  </div>
+                </div>
+
+                {/* 右侧 - 诗词引用 */}
+                <div>
+                  <h4 className="font-inscription text-lg text-foreground mb-4 tracking-wide">
+                    诗意表达
+                  </h4>
+                  <div className="space-y-4">
+                    {currentLife.poetry.map((poem, i) => (
+                      <div
+                        key={i}
+                        className="p-4 rounded-lg bg-primary/5 border border-primary/10"
+                      >
+                        <p className="text-foreground/80 italic leading-relaxed">
+                          {poem}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 pt-6 border-t border-border/50">
+                    <p className="text-xs text-muted-foreground">
+                      宋代文人将{currentLife.title}融入日常生活，
+                      {currentLife.subtitle.split("与")[1] || ""}
+                      体现了「风雅处处是平常」的生活美学追求。
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
